@@ -5,7 +5,7 @@
   "location.HealthFacilityFullPath.region": "Departement",
   "location.HealthFacilityFullPath.district": "District",
   "location.HealthFacilityFullPath.healthFacility": "HF",
-  "location.RegionPicker.label": "Departement",
+  "location.RegionPicker.label": "Departements",
   "location.RegionPicker.null": "Any",
   "location.RegionPicker.none": "None",
   "location.DistrictPicker.label": "City",
