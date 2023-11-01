@@ -17,8 +17,8 @@ class HealthFacilityEditPage extends Component {
     historyPush(this.props.modulesManager, this.props.history, "location.route.healthFacilityEdit");
   };
 
-  save = (hf) => {
-    this.props.createOrUpdateHealthFacility(
+  save = async (hf) => {
+    const createHealthFacility = await this.props.createOrUpdateHealthFacility(
       hf,
       formatMessageWithValues(
         this.props.intl,
@@ -27,6 +27,7 @@ class HealthFacilityEditPage extends Component {
         { code: hf.code },
       ),
     );
+    console.log("checkresponse", createHealthFacility);
   };
 
   render() {

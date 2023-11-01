@@ -90,9 +90,24 @@ class HealthFacilityForm extends Component {
   };
 
   canSave = () => {
-    if (!this.state.healthFacility.code) return false;
+    // if (!this.state.healthFacility.code) return false;
     if (this.props.isHFCodeValid === false) return false;
     if (!this.state.healthFacility.name) return false;
+    if (!this.state.healthFacility.location) return false;
+    if (!this.state.healthFacility.address) return false;
+    if (!this.state.healthFacility.phone) return false;
+    if (!this.state.healthFacility.jsonExt.fosaLevel) return false;
+    if (!this.state.healthFacility.jsonExt.authorisationDate) return false;
+    if (!this.state.healthFacility.jsonExt.bankReferences) return false;
+    if (!this.state.healthFacility.jsonExt.category_fosa) return false;
+    if (!this.state.healthFacility.jsonExt.channelNumber) return false;
+    if (!this.state.healthFacility.jsonExt.contactFirstNames) return false;
+    if (!this.state.healthFacility.jsonExt.contactName) return false;
+    if (!this.state.healthFacility.jsonExt.contactPhone) return false;
+    if (!this.state.healthFacility.jsonExt.creationDate) return false;
+    if (!this.state.healthFacility.jsonExt.niuNo) return false;
+    if (!this.state.healthFacility.jsonExt.responsibleName) return false;
+    if (!this.state.healthFacility.jsonExt.type) return false;
     if (!this.state.healthFacility.location) return false;
     if (!this.state.healthFacility.legalForm) return false;
     if (!this.state.healthFacility.level) return false;

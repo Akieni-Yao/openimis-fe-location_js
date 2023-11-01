@@ -25,6 +25,7 @@ import reducer from "./reducer";
 
 import { LOCATION_SUMMARY_PROJECTION, nestParentsProjections } from "./utils";
 import { HEALTH_FACILITY_PICKER_PROJECTION } from "./actions";
+import CategoryFosaPicker from "./pickers/CategoryFosaPicker";
 
 const ROUTE_LOCATIONS = "location/locations";
 const ROUTE_HEALTH_FACILITIES = "location/healthFacilities";
@@ -49,6 +50,7 @@ const DEFAULT_CONFIG = {
     { key: "location.RegionPicker", ref: RegionPicker },
     { key: "location.DistrictPicker", ref: DistrictPicker },
     { key: "location.LocationPicker", ref: LocationPicker },
+    { key: "location.CategoryFosaPicker", ref: CategoryFosaPicker },
     { key: "location.FSPLocationPicker", ref: FSPLocationPicker },
     { key: "location.HealthFacilityGQLType", ref: "HealthFacilityGQLType" },
     { key: "location.HealthFacilityPriceListsPanel", ref: HealthFacilityPriceListsPanel },

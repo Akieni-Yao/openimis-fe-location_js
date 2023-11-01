@@ -8,6 +8,7 @@ import {
   formatMutation,
   formatJsonField,
   graphqlWithVariables,
+  graphqlMutationLegacy
 } from "@openimis/fe-core";
 
 import { LOCATION_SUMMARY_PROJECTION, nestParentsProjections } from "./utils";
@@ -133,6 +134,7 @@ export function fetchHealthFacilitySummaries(filters) {
     "validityFrom",
     "validityTo",
     "clientMutationId",
+    "jsonExt"
   ];
   const payload = formatPageQueryWithCount("healthFacilities", filters, projections);
   return graphql(payload, "LOCATION_HEALTH_FACILITY_SEARCHER");
@@ -292,7 +294,6 @@ function formatCatchments(catchments) {
 function formatHealthFacilityGQL(hf) {
   return `
     ${hf.uuid !== undefined && hf.uuid !== null ? `uuid: "${hf.uuid}"` : ""}
-    code: "${formatGQLString(hf.code)}"
     name: "${formatGQLString(hf.name)}"
     locationId: ${decodeId(hf.location.id)}
     level: "${hf.level}"
@@ -307,6 +308,7 @@ function formatHealthFacilityGQL(hf) {
     ${!!hf.servicesPricelist ? `servicesPricelistId: ${decodeId(hf.servicesPricelist.id)}` : ""}
     ${!!hf.itemsPricelist ? `itemsPricelistId: ${decodeId(hf.itemsPricelist.id)}` : ""}
     ${!!hf.mutationExtensions ? `mutationExtensions: ${formatJsonField(hf.mutationExtensions)}` : ""}
+    ${!!hf.jsonExt ? `jsonExt: ${formatJsonField(hf.jsonExt)}` : ""}
     ${formatCatchments(hf.catchments)}
   `;
 }
@@ -315,7 +317,8 @@ export function createOrUpdateHealthFacility(hf, clientMutationLabel) {
   let action = hf.uuid !== undefined && hf.uuid !== null ? "update" : "create";
   let mutation = formatMutation(`${action}HealthFacility`, formatHealthFacilityGQL(hf), clientMutationLabel);
   var requestedDateTime = new Date();
-  return graphql(
+  // return graphql(
+  return graphqlMutationLegacy(
     mutation.payload,
     ["LOCATION_MUTATION_REQ", `LOCATION_${action.toUpperCase()}_HEALTH_FACILITY_RESP`, "LOCATION_MUTATION_ERR"],
     {
@@ -323,6 +326,8 @@ export function createOrUpdateHealthFacility(hf, clientMutationLabel) {
       clientMutationLabel,
       requestedDateTime,
     },
+    true,
+    "",
   );
 }
 
