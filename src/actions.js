@@ -8,7 +8,7 @@ import {
   formatMutation,
   formatJsonField,
   graphqlWithVariables,
-  graphqlMutationLegacy
+  graphqlMutationLegacy,
 } from "@openimis/fe-core";
 
 import { LOCATION_SUMMARY_PROJECTION, nestParentsProjections } from "./utils";
@@ -134,7 +134,7 @@ export function fetchHealthFacilitySummaries(filters) {
     "validityFrom",
     "validityTo",
     "clientMutationId",
-    "jsonExt"
+    "jsonExt",
   ];
   const payload = formatPageQueryWithCount("healthFacilities", filters, projections);
   return graphql(payload, "LOCATION_HEALTH_FACILITY_SEARCHER");
@@ -327,7 +327,7 @@ export function createOrUpdateHealthFacility(hf, clientMutationLabel) {
       requestedDateTime,
     },
     true,
-    "",
+    "healthFacilities{healthFacility{jsonExt}}",
   );
 }
 
