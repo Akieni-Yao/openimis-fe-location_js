@@ -8,7 +8,7 @@ import { withModulesManager, decodeId, formatDateFromISO, journalize, coreConfir
 import HealthFacilityFilter from "./HealthFacilityFilter";
 import { fetchHealthFacilitySummaries, deleteHealthFacility } from "../actions";
 import { formatMessage, formatMessageWithValues, PublishedComponent } from "@openimis/fe-core";
-import { IconButton } from "@material-ui/core";
+import { IconButton,Tooltip } from "@material-ui/core";
 import { RIGHT_HEALTH_FACILITY_DELETE } from "../constants";
 
 class HealthFacilitiesSearcher extends Component {
@@ -98,9 +98,11 @@ class HealthFacilitiesSearcher extends Component {
     if (this.props.rights.includes(RIGHT_HEALTH_FACILITY_DELETE)) {
       formatters.push((hf) =>
         !!hf.validityTo ? null : (
+          <Tooltip title={formatMessage(this.props.intl, "location", "deleteHealthFacility.tooltip")}>
           <IconButton onClick={(e) => this.onDelete(hf)}>
             <DeleteIcon />
           </IconButton>
+          </Tooltip>
         ),
       );
     }

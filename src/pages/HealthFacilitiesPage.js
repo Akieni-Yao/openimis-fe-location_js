@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { withTheme, withStyles } from "@material-ui/core/styles";
 import { Fab } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
-import { withHistory, historyPush, formatMessage, Helmet, clearCurrentPaginationPage } from "@openimis/fe-core";
+import { withHistory, historyPush, formatMessage, Helmet, clearCurrentPaginationPage,withTooltip } from "@openimis/fe-core";
 import HealthFacilitiesSearcher from "../components/HealthFacilitiesSearcher";
 import { RIGHT_HEALTH_FACILITY_ADD, MODULE_NAME } from "../constants";
 
@@ -29,17 +29,19 @@ class HealthFacilitiesPage extends Component {
   };
 
   render() {
-    const { classes, rights } = this.props;
+    const { classes, rights,intl } = this.props;
     return (
       <div className={classes.page}>
         <Helmet title={formatMessage(this.props.intl, "location", "healthFacilities.page.title")} />
         <HealthFacilitiesSearcher onDoubleClick={this.onDoubleClick} />
-        {rights.includes(RIGHT_HEALTH_FACILITY_ADD) && (
+        {rights.includes(RIGHT_HEALTH_FACILITY_ADD) && withTooltip(
           <div className={classes.fab}>
             <Fab color="primary" onClick={this.onAdd}>
               <AddIcon />
             </Fab>
           </div>
+          ,
+          formatMessage(intl, "location", "healthFacilityTooltip")
         )}
       </div>
     );

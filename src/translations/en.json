@@ -161,5 +161,7 @@
   "location.HealthFacilityForm.fosaLevel.CSI": "CSI",
   "location.HealthFacilityForm.fosaLevel.HôpitalDeBase": "Hôpital de base",
   "location.HealthFacilityForm.fosaLevel.hôpitalGeneral": "Hôpital General",
-  "location.HealthFacilityForm.fosaLevel.Autres": "Autres"
+  "location.HealthFacilityForm.fosaLevel.Autres": "Autres",
+  "location.healthFacilityTooltip": "Create new Health",
+  "location.deleteHealthFacility.tooltip":"Delete Health Facility"
 }
