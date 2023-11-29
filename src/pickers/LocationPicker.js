@@ -132,6 +132,11 @@ const LocationPicker = (props) => {
           placeholder={
             withPlaceholder ? placeholder || formatMessage(`Location${locationLevel}Picker.placehoder`) : null
           }
+          InputLabelProps={{
+            shrink: value !== undefined, style: {
+              color: readOnly ? '#7f7f7f' : "'#7f7f7f'",
+            },
+          }}
         />
       )}
     />

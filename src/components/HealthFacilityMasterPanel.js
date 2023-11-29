@@ -617,7 +617,6 @@ class HealthFacilityMasterPanel extends FormPanel {
                 nullLabel="empty"
                 value={!!edited && edited.jsonExt ? edited.jsonExt.category_fosa : ""}
                 onChange={(v) => this.updateAttributes({ jsonExt: { category_fosa: v } })}
-                // onChange={(v) => console.log("updatev", v)}
                 readOnly={readOnly}
               />
             </Grid>
