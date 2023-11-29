@@ -26,10 +26,15 @@ import reducer from "./reducer";
 import { LOCATION_SUMMARY_PROJECTION, nestParentsProjections } from "./utils";
 import { HEALTH_FACILITY_PICKER_PROJECTION } from "./actions";
 import CategoryFosaPicker from "./pickers/CategoryFosaPicker";
+import CenterLocationPage from "./pages/CenterLocationPage";
+import CenterLocation from "./pages/CenterLocation";
 
 const ROUTE_LOCATIONS = "location/locations";
+const ROUTE_CENTERS = "location/centers";
+const ROUTE_CENTERS_CREATE = "location/centers/create";
 const ROUTE_HEALTH_FACILITIES = "location/healthFacilities";
 const ROUTE_HEALTH_FACILITY_EDIT = "location/healthFacility";
+// const ROUTE_CENTERS_EDIT = "location/centers/e";
 
 const DEFAULT_CONFIG = {
   "translations": [{ key: "en", messages: messages_en }],
@@ -37,6 +42,7 @@ const DEFAULT_CONFIG = {
   "refs": [
     { key: "location.route.healthFacilities", ref: ROUTE_HEALTH_FACILITIES },
     { key: "location.route.healthFacilityEdit", ref: ROUTE_HEALTH_FACILITY_EDIT },
+    // { key: "location.route.centreLocationEdit", ref: ROUTE_CENTERS_EDIT },
     { key: "location.HealthFacilityFullPath", ref: HealthFacilityFullPath },
     { key: "location.HealthFacilityPicker", ref: HealthFacilityPicker },
     { key: "location.HealthFacilityPicker.projection", ref: HEALTH_FACILITY_PICKER_PROJECTION },
@@ -58,6 +64,7 @@ const DEFAULT_CONFIG = {
     { key: "location.LocationGQLType", ref: "LocationGQLType" },
     { key: "location.Location.MaxLevels", ref: "4" },
     { key: "location.LocationsPage", ref: LocationsPage },
+    // { key: "location.CenterLocationPage", ref: CenterLocationPage },
     { key: "location.HealthFacilitiesPage", ref: HealthFacilitiesPage },
     { key: "location.CoarseLocationFilter", ref: CoarseLocationFilter },
     { key: "location.DetailedLocationFilter", ref: DetailedLocationFilter },
@@ -65,12 +72,16 @@ const DEFAULT_CONFIG = {
     { key: "location.FSPCoarseLocation", ref: FSPCoarseLocation },
     { key: "location.DetailedLocation", ref: DetailedLocation },
     { key: "location.DetailedHealthFacility", ref: DetailedHealthFacility },
+    { key: "location.centerNew", ref: ROUTE_CENTERS_CREATE },
   ],
   "core.Router": [
     { path: ROUTE_LOCATIONS, component: LocationsPage },
+    { path: ROUTE_CENTERS, component: CenterLocationPage },
+    { path: ROUTE_CENTERS_CREATE, component: CenterLocation },
     { path: ROUTE_HEALTH_FACILITIES, component: HealthFacilitiesPage },
     { path: ROUTE_HEALTH_FACILITY_EDIT, component: HealthFacilityEditPage },
     { path: ROUTE_HEALTH_FACILITY_EDIT + "/:healthFacility_uuid?", component: HealthFacilityEditPage },
+    { path: ROUTE_CENTERS_CREATE + "/:center_uuid?", component: CenterLocation },
   ],
   "core.Boot": [UserHealthFacilityLoader, UserDistrictsLoader],
   "invoice.SubjectAndThirdpartyPicker": [

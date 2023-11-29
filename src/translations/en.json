@@ -46,6 +46,7 @@
   "location.locationType.1.placeholder": "Search for a City...",
   "location.locationType.2": "Municipality",
   "location.locationType.3": "Village",
+  "location.locationType.5": "Center",
   "location.locationType.0.children": "Districts, Municipalities and Villages",
   "location.locationType.1.children": "Municipalities and Villages",
   "location.locationType.2.children": "Villages",
@@ -56,6 +57,7 @@
   "location.locations.searcher.title.1": "City",
   "location.locations.searcher.title.2": "Municipalities",
   "location.locations.searcher.title.3": "Villages",
+  "location.locations.searcher.title.5": "Centers",
   "location.locations.searcher.title.3.catchments": "Village Catchments",
   "location.EditDialog.save": "Save",
   "location.EditDialog.cancel": "Cancel",
@@ -160,5 +162,6 @@
   "location.HealthFacilityForm.fosaLevel.CSI": "CSI",
   "location.HealthFacilityForm.fosaLevel.HôpitalDeBase": "Hôpital de base",
   "location.HealthFacilityForm.fosaLevel.hôpitalGeneral": "Hôpital General",
-  "location.HealthFacilityForm.fosaLevel.Autres": "Autres"
+  "location.HealthFacilityForm.fosaLevel.Autres": "Autres",
+  "location.Location.center":"Center"
 }

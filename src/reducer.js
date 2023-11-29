@@ -57,6 +57,11 @@ function reducer(
     fetchingAllL1s: false,
     fetchedAllL1s: false,
     errorAllL1s: null,
+    ...state,
+    fetchingCenters: false,
+    fetchedCenters: false,
+    CentersList: [],
+    errorCentersList: null
   },
   action,
 ) {
@@ -294,6 +299,34 @@ function reducer(
         ...state,
         l3s: [],
       };
+    case "LOCATION_CENTERS_REQ":
+      return {
+        ...state,
+        fetchingCenters: true,
+        fetchedCenters: false,
+        CentersList: [],
+        errorCentersList: null,
+      };
+    case "LOCATION_CENTERS_RESP":
+      console.log('centers.payload.data',action.payload.data.station);
+      return {
+        ...state,
+        fetchingCenters: false,
+        fetchedCenters: true,
+        CentersList: parseData(action.payload.data.station || action.payload.data.locationsStr),
+        errorCentersList: formatGraphQLError(action.payload),
+      };
+    case "LOCATION_CENTERS_ERR":
+      return {
+        ...state,
+        fetchingCenters: false,
+        errorCentersList: formatServerError(action.payload),
+      };
+    case "LOCATION_CENTERS_CLEAR":
+      return {
+        ...state,
+        CentersList: [],
+      };
     case "LOCATION_FILTER_SELECTED":
       let newState = { ...state };
       for (var i = action.payload.level + 1; i < action.payload.maxLevels; i++) {
@@ -514,6 +547,12 @@ function reducer(
       return dispatchMutationResp(state, "updateHealthFacility", action);
     case "LOCATION_DELETE_HEALTH_FACILITY_RESP":
       return dispatchMutationResp(state, "deleteHealthFacility", action);
+      // case "LOCATION_CENTER_MUTATION_REQ":
+      //   return dispatchMutationReq(state, action);
+      // case "LOCATION_CENTER_MUTATION_ERR":
+      //   return dispatchMutationErr(state, action);
+      case "LOCATION_CREATE_CENTER_RESP":
+        return dispatchMutationResp(state, "createStation", action);
     case "CORE_AUTH_LOGOUT":
       return {
         ...state,

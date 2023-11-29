@@ -166,6 +166,53 @@ export function fetchLocations(levels, type, parent) {
   return graphql(payload, `LOCATION_LOCATIONS_${type}`);
 }
 
+export function fetchCentersSummaries(mm, filters) {
+  // export function fetchCenters(levels, type, parent) {
+  // let filters = [
+  //   `
+  //   type: "${levels[type]}",
+  //   orderBy: "code"
+  // `,
+  // ];
+
+  // if (!!parent) {
+  //   filters.push(`location_Uuid: "${parent.uuid}"`);
+  // }
+  // let payload = formatPageQuery("station", filters, [
+  //   "id",
+  //   "name",
+  //   // "code"
+  //   "location{id, code, name,uuid}",
+  // ]);
+  return graphql(
+    `
+    {
+      station (${filters.join(" ")})
+      {
+        totalCount
+        
+    pageInfo { hasNextPage, hasPreviousPage, startCursor, endCursor}
+    edges
+    {
+      node
+      {
+        name,
+        id
+        location {
+          name
+          id
+          uuid
+      }
+      }
+    }
+      }
+    }`,
+    "LOCATION_CENTERS",
+  );
+
+  // return graphql(payload, `LOCATION_CENTERS`);
+}
+
 export function fetchLocationsStr(mm, level, regions = null, districts = null, parent, str, first) {
   const types = mm.getConf("fe-location", "Location.types", ["R", "D", "W", "V"]);
   let filters = [`type: "${types[level]}"`, `str: "${str}"`, first && `first: '${first}'`].filter(Boolean);
@@ -434,3 +481,70 @@ export function locationCodeSetValid() {
     dispatch({ type: `LOCATION_CODE_SET_VALID` });
   };
 }
+
+function formatCenterGQL(location) {
+  console.log("payloadlocation", location);
+  return `
+    ${!!location.regions ? `locationId: "${location.regions.id}"` : ""}
+    ${!!location.center ? `name: "${location.center}"` : ""}
+    ${!!location.stationId ? `stationId: ${location.stationId}` : ""}
+  `;
+}
+
+export function createCentre(mm, task, clientMutationLabel) {
+  // let mutation = formatMutation("createStation", formatCenterGQL(task), {});
+  let mutation = `mutation CreateStation {
+    createStation(${formatCenterGQL(task)}) {
+      station {
+        name
+    }
+    }}`;
+  var requestedDateTime = new Date();
+  return graphql(mutation, ["LOCATION_MUTATION_REQ", "LOCATION_CREATE_CENTER_RESP", "LOCATION_MUTATION_ERR"], {
+    // clientMutationId: mutation.clientMutationId,
+    // clientMutationLabel,
+    // requestedDateTime,
+  });
+}
+export function updateCentre(mm, task, clientMutationLabel) {
+  // let mutation = formatMutation("updateStation", formatCenterGQL(mm, task), clientMutationLabel);
+  let mutation = `mutation UpdateStation {
+    updateStation(${formatCenterGQL(task)}) {
+        station {
+            name
+        }
+    }
+}`;
+  var requestedDateTime = new Date();
+  return graphql(mutation.payload, ["LOCATION_MUTATION_REQ", "LOCATION_CREATE_CENTER_RESP", "LOCATION_MUTATION_ERR"], {
+    // clientMutationId: mutation.clientMutationId,
+    clientMutationLabel,
+    requestedDateTime,
+  });
+}
+// export function fetchCentersSummaries() {
+//   return graphql(
+//     `{
+//         Station(${filters.join(" ")})
+//         {
+//           totalCount
+
+//       pageInfo { hasNextPage, hasPreviousPage, startCursor, endCursor}
+//       edges
+//       {
+//         node
+//         {
+//           name,
+//           station {
+//             name
+//             id
+//         },
+//           uuid
+//         }
+//       }
+//         }
+//       }
+//   `,
+//     "LOCATION_CENTERS_SUMMARIES",
+//   );
+// }
