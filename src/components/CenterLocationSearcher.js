@@ -147,7 +147,7 @@ class CenterLocationSearcher extends Component {
   //     }
   //   };
   onTaskGroupUser = (u) => {
-    historyPush(this.props.modulesManager, this.props.history, "location.centerNew", [u.uuid]);
+    historyPush(this.props.modulesManager, this.props.history, "location.centerNew", [u.id]);
   };
   itemFormatters = (filters) => {
     var formatters = [(taskgroup) => taskgroup.name, (taskgroup) => taskgroup.location.name];

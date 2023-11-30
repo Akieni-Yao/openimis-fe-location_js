@@ -21,6 +21,7 @@ import {
 } from "@openimis/fe-core";
 import {
   createCentre,
+  fetchCenter
   //     createTask,
   //     fetchTaskGroup,
   //     fetchTaskGroupMutation,
@@ -52,7 +53,7 @@ class CenterLocationForm extends Component {
     if (this.props.taskGroupUUID) {
       this.setState(
         (state, props) => ({ taskGroupUUID: props.taskGroupUUID }),
-        (e) => this.props.fetchFullTaskGroupSummaries(this.props.modulesManager, this.props.taskGroupUUID),
+        (e) => this.props.fetchCenter(this.props.modulesManager, this.props.taskGroupUUID),
       );
     }
   }
@@ -148,6 +149,7 @@ class CenterLocationForm extends Component {
       setIsSucess,
       intl,
     } = this.props;
+    console.log(taskGroupUUID,"taskGroupUUID")
     const { taskGroupUser } = this.state;
     let runningMutation = !!taskGroupUser && !!taskGroupUser.clientMutationId;
     let actions = [];
@@ -216,6 +218,7 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
     {
       createCentre,
+      fetchCenter
       // createTask,
       // fetchTaskGroup,
       // fetchTaskGroupMutation,

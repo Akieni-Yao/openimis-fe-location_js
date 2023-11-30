@@ -25,7 +25,7 @@ const CenterLocation = (props) => {
     // setResetKey(Date.now());
     historyPush(modulesManager, history, "admin.taskNew");
   };
-
+  // console.log(match,"match")
   const save = async (task) => {
     if (!task[0]?.uuid) {
       console.log("tskpayload", task);
@@ -60,8 +60,8 @@ const CenterLocation = (props) => {
       <CenterLocationForm
         key={resetKey}
         // readOnly={match.params.taskGroup_id ? !rights.includes(Right_TaskGroup_ADD) : !rights.includes(RIGHT_TaskGroup_EDIT)}
-        taskGroupUUID={match.params.taskGroup_id}
-        back={() => historyPush(modulesManager, history, "admin.task")}
+        taskGroupUUID={match.params.center_uuid}
+        back={() => props.history.goBack()}
         // add={rights.includes(Right_TaskGroup_ADD) ? add : null}
         // save={rights.includes(RIGHT_TaskGroup_EDIT) ? save : null}
         save={save}

@@ -167,23 +167,6 @@ export function fetchLocations(levels, type, parent) {
 }
 
 export function fetchCentersSummaries(mm, filters) {
-  // export function fetchCenters(levels, type, parent) {
-  // let filters = [
-  //   `
-  //   type: "${levels[type]}",
-  //   orderBy: "code"
-  // `,
-  // ];
-
-  // if (!!parent) {
-  //   filters.push(`location_Uuid: "${parent.uuid}"`);
-  // }
-  // let payload = formatPageQuery("station", filters, [
-  //   "id",
-  //   "name",
-  //   // "code"
-  //   "location{id, code, name,uuid}",
-  // ]);
   return graphql(
     `
     {
@@ -209,10 +192,34 @@ export function fetchCentersSummaries(mm, filters) {
     }`,
     "LOCATION_CENTERS",
   );
-
-  // return graphql(payload, `LOCATION_CENTERS`);
 }
-
+export function fetchCenter(mm, filters) {
+  return graphql(
+    `
+    {
+      station (id: "${decodeId(filters)}")
+      {
+        totalCount
+        
+    pageInfo { hasNextPage, hasPreviousPage, startCursor, endCursor}
+    edges
+    {
+      node
+      {
+        name,
+        id
+        location {
+          name
+          id
+          uuid
+      }
+      }
+    }
+      }
+    }`,
+    "LOCATION_CENTERS",
+  );
+}
 export function fetchLocationsStr(mm, level, regions = null, districts = null, parent, str, first) {
   const types = mm.getConf("fe-location", "Location.types", ["R", "D", "W", "V"]);
   let filters = [`type: "${types[level]}"`, `str: "${str}"`, first && `first: '${first}'`].filter(Boolean);

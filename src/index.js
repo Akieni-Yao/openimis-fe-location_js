@@ -64,7 +64,7 @@ const DEFAULT_CONFIG = {
     { key: "location.LocationGQLType", ref: "LocationGQLType" },
     { key: "location.Location.MaxLevels", ref: "4" },
     { key: "location.LocationsPage", ref: LocationsPage },
-    // { key: "location.CenterLocationPage", ref: CenterLocationPage },
+    { key: "location.CenterLocationPage", ref: CenterLocationPage },
     { key: "location.HealthFacilitiesPage", ref: HealthFacilitiesPage },
     { key: "location.CoarseLocationFilter", ref: CoarseLocationFilter },
     { key: "location.DetailedLocationFilter", ref: DetailedLocationFilter },
@@ -81,7 +81,7 @@ const DEFAULT_CONFIG = {
     { path: ROUTE_HEALTH_FACILITIES, component: HealthFacilitiesPage },
     { path: ROUTE_HEALTH_FACILITY_EDIT, component: HealthFacilityEditPage },
     { path: ROUTE_HEALTH_FACILITY_EDIT + "/:healthFacility_uuid?", component: HealthFacilityEditPage },
-    { path: ROUTE_CENTERS_CREATE + "/:center_uuid?", component: CenterLocation },
+    { path: ROUTE_CENTERS_CREATE + "/:center_uuid", component: CenterLocation },
   ],
   "core.Boot": [UserHealthFacilityLoader, UserDistrictsLoader],
   "invoice.SubjectAndThirdpartyPicker": [
