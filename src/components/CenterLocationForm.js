@@ -21,7 +21,7 @@ import {
 } from "@openimis/fe-core";
 import {
   createCentre,
-  fetchCenter
+  fetchCenter,
   //     createTask,
   //     fetchTaskGroup,
   //     fetchTaskGroupMutation,
@@ -59,10 +59,10 @@ class CenterLocationForm extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (!prevProps.fetchedTaskGroup && !!this.props.fetchtaskGroupUsercreatetedTaskGroup) {
-      var taskGroupUser = this.props?.taskGroupUser;
+    if (prevProps.fetchedCenters !== this.props.fetchedCenters && !!this.props.fetchedCenters) {
+      var taskGroupUser = this.props?.CentersList;
       if (taskGroupUser) {
-        this.setState({ taskGroupUser, taskGroupUUID: taskGroupUser[0].uuid, lockNew: false, newTaskGroupUser: false });
+        this.setState({ taskGroupUser, taskGroupUUID: taskGroupUser.id, lockNew: false, newTaskGroupUser: false });
       }
     } else if (prevProps.taskGroupUUID && !this.props.taskGroupUUID) {
       this.setState({
@@ -109,15 +109,13 @@ class CenterLocationForm extends Component {
   };
 
   _save = (taskGroupUser) => {
-    console.log('payload',taskGroupUser);
     this.setState(
-      { lockNew: !taskGroupUser[0]?.uuid }, // avoid duplicates
+      { lockNew: !taskGroupUser[0]?.id }, // avoid duplicates
       (e) => this.props.save(taskGroupUser),
     );
   };
 
   onEditedChanged = (taskGroupUser) => {
-    // console.log(taskGroupUser,"taskGroupUser")
     this.setState({ taskGroupUser, newTaskGroupUser: false });
   };
 
@@ -138,18 +136,18 @@ class CenterLocationForm extends Component {
       add,
       save,
       back,
-      fetchedTaskGroup,
+      fetchedCenters,
       fetchingTaskGroup,
       // taskGroupUser,
-      errorTaskGroup,
+      errorCentersList,
       mutation,
       sucess,
       sucessMessage,
       handleClose,
       setIsSucess,
       intl,
+      fetchingCenters,
     } = this.props;
-    console.log(taskGroupUUID,"taskGroupUUID")
     const { taskGroupUser } = this.state;
     let runningMutation = !!taskGroupUser && !!taskGroupUser.clientMutationId;
     let actions = [];
@@ -162,8 +160,8 @@ class CenterLocationForm extends Component {
     }
     return (
       <div className={!!runningMutation ? classes.lockedPage : null}>
-        <ProgressOrError progress={fetchingTaskGroup} error={errorTaskGroup} />
-        {((!!fetchedTaskGroup && !!taskGroupUser && taskGroupUser[0]?.uuid === taskGroupUUID) || !taskGroupUUID) && (
+        <ProgressOrError progress={fetchingCenters} error={errorCentersList} />
+        {((!!fetchedCenters && !!taskGroupUser && taskGroupUser[0]?.uuid === taskGroupUUID) || !taskGroupUUID) && (
           <Form
             module="location"
             title={taskGroupUUID ? "location.task.title" : "location.task.newTitle"}
@@ -184,7 +182,7 @@ class CenterLocationForm extends Component {
             openDirty={save}
           />
         )}
-        {sucess && (
+        {/* {sucess && (
           <Snackbar
             open={sucess}
             anchorOrigin={{ horizontal: "center", vertical: "top" }}
@@ -194,7 +192,7 @@ class CenterLocationForm extends Component {
               {sucessMessage}
             </Alert>
           </Snackbar>
-        )}
+        )} */}
       </div>
     );
   }
@@ -203,7 +201,7 @@ class CenterLocationForm extends Component {
 const mapStateToProps = (state, props) => ({
   rights: !!state.core && !!state.core.user && !!state.core.user.i_user ? state.core.user.i_user.rights : [],
   rights: state.core?.user?.i_user?.rights ?? [],
-  taskGroupUser: state?.admin?.taskGroups?.items,
+  // taskGroupUser: state?.admin?.taskGroups?.items,
   fetchingTaskGroup: state.admin.taskGroups.isFetching,
   errorTaskGroup: state.admin.taskGroups.error,
   fetchedTaskGroup: state.admin.taskGroups.isFetched,
@@ -211,6 +209,10 @@ const mapStateToProps = (state, props) => ({
   mutation: state.admin.taskGroups.mutation,
   confirmed: state.core.confirmed,
   state: state,
+  fetchingCenters: state.loc.fetchingCenters,
+  fetchedCenters: state.loc.fetchedCenters,
+  CentersList: state.loc.CentersList,
+  errorCentersList: state.loc.errorCentersList,
   // isChfIdValid: state.insuree?.validationFields?.insureeNumber?.isValid,
 });
 
@@ -218,7 +220,7 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
     {
       createCentre,
-      fetchCenter
+      fetchCenter,
       // createTask,
       // fetchTaskGroup,
       // fetchTaskGroupMutation,

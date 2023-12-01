@@ -18,8 +18,9 @@ import {
   ConfirmDialog,
 } from "@openimis/fe-core";
 import EditIcon from "@material-ui/icons/Edit";
-import { fetchCentersSummaries } from "../actions";
+import { fetchCentersSummaries, deleteCentre } from "../actions";
 import CenterLocationFilter from "./CenterLocationFilter";
+import DeleteCenterDailog from "./DeleteCenterDailog";
 // import DeleteTaskGroupDailog from "./DeleteTaskGroupDailog";
 
 // const INSUREE_SEARCHER_CONTRIBUTION_KEY = "insuree.InsureeSearcher";
@@ -131,23 +132,23 @@ class CenterLocationSearcher extends Component {
   // handleClose = () => {
   //     this.setState({ open: false });
   // };
-  //   deleteUser = (isConfirmed) => {
-  //     if (!!isConfirmed) {
-  //       this.setState({ deleteUser: null });
-  //     } else {
-  //       const user = this.state.deleteUser;
-  //       this.setState({ deleteUser: null }, async () => {
-  //         await this.props.deleteTaskGroup(
-  //           this.props.modulesManager,
-  //           user,
-  //           formatMessage(this.props.intl, "admin.user", "deleteDialog.title"),
-  //         );
-  //         this.fetch(["first: 10", 'orderBy: ["name"]']);
-  //       });
-  //     }
-  //   };
+  deleteUser = (isConfirmed) => {
+    if (!!isConfirmed) {
+      this.setState({ deleteUser: null });
+    } else {
+      const user = this.state.deleteUser;
+      this.setState({ deleteUser: null }, async () => {
+        await this.props.deleteCentre(
+          this.props.modulesManager,
+          user,
+          formatMessage(this.props.intl, "admin.user", "deleteDialog.title"),
+        );
+        this.fetch(["first: 10", 'orderBy: ["name"]']);
+      });
+    }
+  };
   onTaskGroupUser = (u) => {
-    historyPush(this.props.modulesManager, this.props.history, "location.centerNew", [u.id]);
+    historyPush(this.props.modulesManager, this.props.history, "location.centerNew", [u.uuid]);
   };
   itemFormatters = (filters) => {
     var formatters = [(taskgroup) => taskgroup.name, (taskgroup) => taskgroup.location.name];
@@ -199,29 +200,30 @@ class CenterLocationSearcher extends Component {
       intl,
       cacheFiltersKey,
       onDoubleClick,
-      taskGroupPageInfo,
+      centerGroupPageInfo,
       errorCentersList,
       fetchedCenters,
       fetchingCenters,
       CentersList,
     } = this.props;
-    let count = taskGroupPageInfo.totalCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    console.log("centerpageinfo", centerGroupPageInfo);
+    let count =
+      !!centerGroupPageInfo && centerGroupPageInfo.totalCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return (
       <>
-        {/* {this.state.deleteUser && (
-                    <DeleteTaskGroupDailog
-                        task={this.state.deleteUser}
-                        onConfirm={this.deleteUser}
-                        onCancel={(e) => this.setState({ deleteUser: null })}
-
-                    />
-                )} */}
+        {this.state.deleteUser && (
+          <DeleteCenterDailog
+            task={this.state.deleteUser}
+            onConfirm={this.deleteUser}
+            onCancel={(e) => this.setState({ deleteUser: null })}
+          />
+        )}
         <Searcher
           module="admin"
           cacheFiltersKey={cacheFiltersKey}
           FilterPane={CenterLocationFilter}
           items={CentersList}
-          itemsPageInfo={taskGroupPageInfo}
+          itemsPageInfo={!!centerGroupPageInfo ? centerGroupPageInfo : []}
           fetchingItems={fetchingCenters}
           fetchedItems={fetchedCenters}
           errorItems={errorCentersList}
@@ -248,7 +250,7 @@ const mapStateToProps = (state) => ({
   mutation: state.insuree.mutation,
   confirmed: state.core.confirmed,
   taskGroup: state.admin.taskGroupSummary.items,
-  taskGroupPageInfo: state.admin.taskGroupSummary.pageInfo,
+  centerGroupPageInfo: state.loc.centerPageInfo,
   fetchingTaskGroup: state.admin.taskGroupSummary.isFetching,
   fetchedTaskGroup: state.admin.taskGroupSummary.fetched,
   errorTaskGroup: state.admin.taskGroupSummary.error,
@@ -259,7 +261,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({ journalize, coreConfirm, fetchCentersSummaries }, dispatch);
+  return bindActionCreators({ journalize, coreConfirm, fetchCentersSummaries, deleteCentre }, dispatch);
 };
 
 export default withModulesManager(

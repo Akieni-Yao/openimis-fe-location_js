@@ -27,7 +27,7 @@ const styles = (theme) => ({
 class CenterLocationPage extends Component {
   onDoubleClick = (u, newTab = false) => {
     // console.log(u,"click");
-    historyPush(this.props.modulesManager, this.props.history, "admin.task.Overview", [u.uuid]);
+    historyPush(this.props.modulesManager, this.props.history, "location.centerNew", [u.uuid]);
   };
   onTaskGroupUser = (u) => {
     historyPush(this.props.modulesManager, this.props.history, "admin.task.groupUser", [u.uuid]);

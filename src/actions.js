@@ -180,11 +180,13 @@ export function fetchCentersSummaries(mm, filters) {
       node
       {
         name,
-        id
+        id,
+        uuid
         location {
           name
           id
           uuid
+          code
       }
       }
     }
@@ -197,7 +199,7 @@ export function fetchCenter(mm, filters) {
   return graphql(
     `
     {
-      station (id: "${decodeId(filters)}")
+      station (uuid: "${filters}")
       {
         totalCount
         
@@ -207,11 +209,13 @@ export function fetchCenter(mm, filters) {
       node
       {
         name,
-        id
+        id,
+        uuid
         location {
           name
           id
           uuid
+          code
       }
       }
     }
@@ -492,41 +496,53 @@ export function locationCodeSetValid() {
 function formatCenterGQL(location) {
   console.log("payloadlocation", location);
   return `
-    ${!!location.regions ? `locationId: "${location.regions.id}"` : ""}
-    ${!!location.center ? `name: "${location.center}"` : ""}
-    ${!!location.stationId ? `stationId: ${location.stationId}` : ""}
+    ${!!location.location ? `locationId: "${decodeId(location.location.id)}"` : ""}
+    ${!!location.name ? `name: "${location.name}"` : ""}
+    ${!!location.id ? `stationId: ${decodeId(location.id)}` : ""}
   `;
 }
 
-export function createCentre(mm, task, clientMutationLabel) {
-  // let mutation = formatMutation("createStation", formatCenterGQL(task), {});
+export function createCentre(mm, task) {
   let mutation = `mutation CreateStation {
     createStation(${formatCenterGQL(task)}) {
+      success
+      message
       station {
         name
     }
     }}`;
-  var requestedDateTime = new Date();
-  return graphql(mutation, ["LOCATION_MUTATION_REQ", "LOCATION_CREATE_CENTER_RESP", "LOCATION_MUTATION_ERR"], {
-    // clientMutationId: mutation.clientMutationId,
-    // clientMutationLabel,
-    // requestedDateTime,
-  });
+  return graphql(
+    mutation,
+    ["LOCATION_MUTATION_REQ", "LOCATION_CREATE_CENTER_RESP", "LOCATION_MUTATION_ERR"],
+    "success message",
+  );
 }
 export function updateCentre(mm, task, clientMutationLabel) {
-  // let mutation = formatMutation("updateStation", formatCenterGQL(mm, task), clientMutationLabel);
   let mutation = `mutation UpdateStation {
     updateStation(${formatCenterGQL(task)}) {
+      success
+      message
         station {
             name
         }
     }
 }`;
+  return graphql(
+    mutation,
+    ["LOCATION_MUTATION_REQ", "LOCATION_UPDATE_CENTER_RESP", "LOCATION_MUTATION_ERR"],
+    "success message",
+  );
+}
+export function deleteCentre(mm, task, clientMutationLabel) {
+  let mutation = `mutation DeleteStation {
+    deleteStation(id: ${decodeId(task.id)}) {
+        success}
+    }`;
   var requestedDateTime = new Date();
-  return graphql(mutation.payload, ["LOCATION_MUTATION_REQ", "LOCATION_CREATE_CENTER_RESP", "LOCATION_MUTATION_ERR"], {
+  return graphql(mutation, ["LOCATION_MUTATION_REQ", "LOCATION_CREATE_CENTER_RESP", "LOCATION_MUTATION_ERR"], {
     // clientMutationId: mutation.clientMutationId,
-    clientMutationLabel,
-    requestedDateTime,
+    // clientMutationLabel,
+    // requestedDateTime,
   });
 }
 // export function fetchCentersSummaries() {

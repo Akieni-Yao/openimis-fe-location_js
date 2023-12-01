@@ -61,7 +61,12 @@ function reducer(
     fetchingCenters: false,
     fetchedCenters: false,
     CentersList: [],
-    errorCentersList: null
+    centerPageInfo:null,
+    errorCentersList: null,
+    fetchingCenterRes: false,
+    fetchedCenterRes: false,
+    centerData: null,
+    errorrcenter: null,
   },
   action,
 ) {
@@ -308,12 +313,13 @@ function reducer(
         errorCentersList: null,
       };
     case "LOCATION_CENTERS_RESP":
-      console.log('centers.payload.data',action.payload.data.station);
+      console.log("centers.payload.data", action.payload.data.station);
       return {
         ...state,
         fetchingCenters: false,
         fetchedCenters: true,
         CentersList: parseData(action.payload.data.station || action.payload.data.locationsStr),
+        centerPageInfo:action.payload.data.station,
         errorCentersList: formatGraphQLError(action.payload),
       };
     case "LOCATION_CENTERS_ERR":
@@ -529,6 +535,13 @@ function reducer(
           },
         },
       };
+    case "LOCATION_CREATE_CENTER_RESP":
+      return {
+        fetchingCenterRes: false,
+        fetchedCenterRes: true,
+        centerData: action.payload.data.createStation,
+        errorrcenter: formatGraphQLError(action.payload),
+      };
     case "LOCATION_MUTATION_REQ":
       return dispatchMutationReq(state, action);
     case "LOCATION_MUTATION_ERR":
@@ -547,12 +560,14 @@ function reducer(
       return dispatchMutationResp(state, "updateHealthFacility", action);
     case "LOCATION_DELETE_HEALTH_FACILITY_RESP":
       return dispatchMutationResp(state, "deleteHealthFacility", action);
-      // case "LOCATION_CENTER_MUTATION_REQ":
-      //   return dispatchMutationReq(state, action);
-      // case "LOCATION_CENTER_MUTATION_ERR":
-      //   return dispatchMutationErr(state, action);
-      case "LOCATION_CREATE_CENTER_RESP":
-        return dispatchMutationResp(state, "createStation", action);
+    // case "LOCATION_CENTER_MUTATION_REQ":
+    //   return dispatchMutationReq(state, action);
+    // case "LOCATION_CENTER_MUTATION_ERR":
+    //   return dispatchMutationErr(state, action);
+    // case "LOCATION_CREATE_CENTER_RESP":
+    //   return dispatchMutationResp(state, "createStation", action);
+    // case "LOCATION_UPDATE_CENTER_RESP":
+    //   return dispatchMutationResp(state, "updateStation", action);
     case "CORE_AUTH_LOGOUT":
       return {
         ...state,

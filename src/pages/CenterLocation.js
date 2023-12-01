@@ -7,7 +7,8 @@ import { withModulesManager, combine, withHistory, historyPush, useTranslations 
 // import { RIGHT_TaskGroup_EDIT, Right_TaskGroup_ADD } from "../constants";
 // import TaskGroupForm from "../components/TaskGroupForm";
 import CenterLocationForm from "../components/CenterLocationForm";
-import { createCentre } from "../actions";
+import { createCentre, updateCentre } from "../actions";
+import CommonSnackbar from "../components/CommonSnackbar";
 
 const styles = (theme) => ({
   page: theme.page,
@@ -28,33 +29,34 @@ const CenterLocation = (props) => {
   // console.log(match,"match")
   const save = async (task) => {
     if (!task[0]?.uuid) {
-      console.log("tskpayload", task);
-      const data = await dispatch(
-        createCentre(modulesManager, task, formatMessageWithValues("task.createTask.mutationLabel")),
-      );
-      // console.log(data, "data")
+      const data = await dispatch(createCentre(modulesManager, task));
       if (data?.payload) {
         setIsSucess(true);
-        setIsSucessMessage("Task Group Sucessfully Created");
+        setIsSucessMessage("Center Sucessfully Created");
+        setTimeout(() => {
+          history.goBack();
+        }, 2000);
+      } else {
+        setIsSucess(false);
+      }
+    } else {
+      const data = await dispatch(
+        updateCentre(modulesManager, task[0], formatMessageWithValues("admin.task.updateTask.mutationLabel")),
+      );
+      if (data?.payload.data.updateStation.station) {
+        setIsSucess(true);
+        setIsSucessMessage("Center Sucessfully Updated");
+        setTimeout(() => {
+          history.goBack();
+        }, 2000);
       } else {
         setIsSucess(false);
       }
     }
-    // else {
-    // const data = dispatch(updateTaskGroup(modulesManager, task, formatMessageWithValues("admin.task.updateTask.mutationLabel")));
-    // if (data?.payload) {
-    //     setIsSucess(true);
-    //     setIsSucessMessage("Task Group Sucessfully Updated");
-    // }
-    //     else {
-    //         setIsSucess(false)
-    //     }
-    // }
   };
   const handleClose = () => {
     setIsSucess(false);
   };
-  // console.log(sucessMessage,"sucessMessage")
   return (
     <div className={classes.page}>
       <CenterLocationForm
@@ -69,6 +71,14 @@ const CenterLocation = (props) => {
         sucessMessage={sucessMessage}
         handleClose={handleClose}
         setIsSucess={setIsSucess}
+      />
+      <CommonSnackbar
+        open={sucess}
+        onClose={handleClose}
+        message={sucessMessage}
+        severity="success"
+        copyText={""}
+        backgroundColor="#00913E"
       />
     </div>
   );

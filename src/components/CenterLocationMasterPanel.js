@@ -31,16 +31,15 @@ const CenterLocationMasterPanel = (props) => {
 
   useEffect(() => {
     if (edited) {
-      setFormdata(edited[0]);
+      setFormdata(edited);
     }
   }, [edited]);
-  console.log(edited, "edited");
-  const iuser = edited[0]?.tgUsersTaskGroup?.map((user) => {
-    return user?.user;
-  });
-  const username = iuser?.map((iUser) => {
-    return iUser.iUser;
-  });
+  // const iuser = edited[0]?.tgUsersTaskGroup?.map((user) => {
+  //   return user?.user;
+  // });
+  // const username = iuser?.map((iUser) => {
+  //   return iUser.iUser;
+  // });
   const { formatMessage } = useTranslations("admin", modulesManager);
   return (
     <Grid container direction="row">
@@ -58,47 +57,27 @@ const CenterLocationMasterPanel = (props) => {
                 </Grid> */}
         <Grid item xs={3} className={classes.item}>
           <PublishedComponent
+            module="location"
             pubRef="location.LocationPicker"
-            value={edited[0]?.regions}
-            onChange={(regions) => handleChange("regions", regions)}
+            value={edited[0]?.location}
+            onChange={(location) => handleChange("location", location)}
             readOnly={readOnly}
             withLabel
             label={formatMessage("Regions")}
           />
         </Grid>
         <Grid item xs={3} className={classes.item}>
-          {/* <PublishedComponent
-                        pubRef="admin.CenterPicker"
-                        value={edited[0]?.station}
-                        module="admin"
-                        label="Center"
-                        readOnly={readOnly}
-                        onChange={(station) => handleChange("station", station)}
-                        stations={edited?.regions?.uuid}
-                    /> */}
           <TextInput
             module="location"
             label="Location.center"
-            name="center"
+            name="name"
             type="text"
-            value={edited.center}
-            readOnly={readOnly}
+            value={!!edited ? edited[0]?.name : ""}
+            // readOnly={readOnly}
             required
-            onChange={(v) => handleChange("center", v)}
+            onChange={(v) => handleChange("name", v)}
           />
         </Grid>
-        {/* <Grid item xs={6} className={classes.item}>
-                    <PublishedComponent
-                        pubRef="admin.EmployeePicker"
-                        required
-                        withNull={true}
-                        value={!!edited && iuser}
-                        module="admin"
-                        readOnly={readOnly}
-                        onChange={(v) => handleChange("user", v)}
-                        stationId={edited?.station}
-                    />
-                </Grid> */}
       </Grid>
     </Grid>
   );
