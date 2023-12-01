@@ -166,5 +166,7 @@
   "location.HealthFacilityForm.fosaLevel.Autres": "Autres",
   "location.Location.center":"Center",
   "location.healthFacilityTooltip": "Create new Health",
-  "location.deleteHealthFacility.tooltip":"Delete Health Facility"
+  "location.deleteHealthFacility.tooltip":"Delete Health Facility",
+  "location.task.title":"Update a center",
+  "location.task.newTitle":"Create a center"
 }
