@@ -1,3 +1,5 @@
+import _ from "lodash";
+
 export function healthFacilityLabel(hf) {
   return !!hf ? `${hf.code} ${hf.name}` : "";
 }
@@ -11,3 +13,4 @@ export const LOCATION_SUMMARY_PROJECTION = ["id", "uuid", "code", "name", "type"
 export const nestParentsProjections = (i) => {
   return `parent{${LOCATION_SUMMARY_PROJECTION}${i === 0 ? "" : "," + nestParentsProjections(i - 1)}}`;
 };
+

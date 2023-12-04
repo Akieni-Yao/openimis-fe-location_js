@@ -166,34 +166,44 @@ export function fetchLocations(levels, type, parent) {
   return graphql(payload, `LOCATION_LOCATIONS_${type}`);
 }
 
-export function fetchCentersSummaries(mm, filters) {
-  return graphql(
-    `
-    {
-      station (${filters.join(" ")})
-      {
-        totalCount
+// export function fetchCentersSummaries(mm, filters) {
+//   return graphql(
+//     `
+//     {
+//       station (${filters.join(" ")})
+//       {
+//         totalCount
         
-    pageInfo { hasNextPage, hasPreviousPage, startCursor, endCursor}
-    edges
-    {
-      node
-      {
-        name,
-        id,
-        uuid
-        location {
-          name
-          id
-          uuid
-          code
-      }
-      }
-    }
-      }
-    }`,
-    "LOCATION_CENTERS",
-  );
+//     pageInfo { hasNextPage, hasPreviousPage, startCursor, endCursor}
+//     edges
+//     {
+//       node
+//       {
+//         name,
+//         id,
+//         uuid
+//         location {
+//           name
+//           id
+//           uuid
+//           code
+//       }
+//       }
+//     }
+//       }
+//     }`,
+//     "LOCATION_CENTERS",
+//   );
+// }
+export function fetchCentersSummaries(filters) {
+  var projections = [
+    "name",
+    "id",
+    "uuid",
+    "location {name,id,uuid,code}"
+  ];
+  const payload = formatPageQueryWithCount("station", filters, projections);
+  return graphql(payload, "LOCATION_CENTERS");
 }
 export function fetchCenter(mm, filters) {
   return graphql(

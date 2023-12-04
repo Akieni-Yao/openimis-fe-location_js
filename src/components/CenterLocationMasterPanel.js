@@ -40,30 +40,19 @@ const CenterLocationMasterPanel = (props) => {
   // const username = iuser?.map((iUser) => {
   //   return iUser.iUser;
   // });
-  const { formatMessage } = useTranslations("admin", modulesManager);
+  const { formatMessage } = useTranslations("location", modulesManager);
   return (
     <Grid container direction="row">
       <Grid container>
-        {/* <Grid item xs={3} className={classes.item}>
-                    <TextInput
-                        module="admin"
-                        type="text"
-                        label="task.name"
-                        readOnly={readOnly}
-                        value={!edited ? null : edited[0]?.name}
-                        onChange={(v) => handleChange("name", v)}
-
-                    />
-                </Grid> */}
         <Grid item xs={3} className={classes.item}>
           <PublishedComponent
             module="location"
-            pubRef="location.LocationPicker"
+            pubRef="location.RegionPicker"
             value={edited[0]?.location}
             onChange={(location) => handleChange("location", location)}
             readOnly={readOnly}
             withLabel
-            label={formatMessage("Regions")}
+            label={formatMessage("location.LocationPicker")}
           />
         </Grid>
         <Grid item xs={3} className={classes.item}>

@@ -65,7 +65,7 @@ class CenterLocationSearcher extends Component {
   }
 
   fetch = (prms) => {
-    this.props.fetchCentersSummaries(this.props.modulesManager, prms);
+    this.props.fetchCentersSummaries(prms);
   };
 
   rowIdentifier = (r) => r.uuid;
@@ -93,8 +93,8 @@ class CenterLocationSearcher extends Component {
 
   headers = (filters) => {
     var h = [
-      "center",
-      "location",
+      "Location.center",
+      "Location.location",
       // ...Array.from(Array(this.locationLevels)).map((_, i) => `location.locationType.${i}`),
       " ",
       " ",
@@ -102,10 +102,10 @@ class CenterLocationSearcher extends Component {
     return h.filter(Boolean);
   };
 
-  sorts = (filters) => {
+  sorts = () => {
     var results = [
-      ["name", true],
       ["center", true],
+      ["location", true],
     ];
     // _.times(this.locationLevels, () => results.push(null));
     // results.push(["validityFrom", false], ["validityTo", false]);
@@ -119,19 +119,7 @@ class CenterLocationSearcher extends Component {
   styles = (theme) => ({
     horizontalButtonContainer: theme.buttonContainer.horizontal,
   });
-  // parentLocation = (location, level) => {
-  //     if (!location) return "";
-  //     let loc = location;
-  //     for (var i = 1; i < this.locationLevels - level; i++) {
-  //         if (!loc.parent) return "";
-  //         loc = loc.parent;
-  //     }
-  //     return !!loc ? loc.name : "";
-  // };
-
-  // handleClose = () => {
-  //     this.setState({ open: false });
-  // };
+  
   deleteUser = (isConfirmed) => {
     if (!!isConfirmed) {
       this.setState({ deleteUser: null });
@@ -152,43 +140,30 @@ class CenterLocationSearcher extends Component {
   };
   itemFormatters = (filters) => {
     var formatters = [(taskgroup) => taskgroup.name, (taskgroup) => taskgroup.location.name];
-    // for (var i = 0; i < this.locationLevels; i++) {
-    //     // need a fixed variable to refer to as parentLocation argument
-    //     let j = i + 0;
-    //     formatters.push((taskgroup) =>
-    //         this.parentLocation(taskgroup.location, j),
-    //     );
-    // }
-
-    formatters.push(
-      //   (taskgroup) => formatDateFromISO(this.props.modulesManager, this.props.intl, taskgroup.validityFrom),
-      //   filters.showHistory &&
-      //     ((taskgroup) => formatDateFromISO(this.props.modulesManager, this.props.intl, taskgroup.validityTo)),
-      (taskgroup) => (
-        <div>
-          <Grid container wrap="wrap" spacing="1">
-            <Grid item>
-              <IconButton
-                onClick={(e) => {
-                  this.onTaskGroupUser(taskgroup);
-                }}
-                styles={{ marginTop: "10px" }}
-              >
-                <EditIcon />
-              </IconButton>
-            </Grid>
-            {/* {this.props.rights.includes(RIGHT_taskgroup_DELETE) && !taskgroup.validityTo && ( */}
-            <Grid item>
-              <Tooltip title={formatMessage(this.props.intl, "admin.user", "deleteUser.tooltip")}>
-                <IconButton onClick={() => this.setState({ deleteUser: taskgroup })}>
-                  <DeleteIcon />
-                </IconButton>
-              </Tooltip>
-            </Grid>
+    formatters.push((taskgroup) => (
+      <div>
+        <Grid container wrap="wrap" spacing="1">
+          <Grid item>
+            <IconButton
+              onClick={(e) => {
+                this.onTaskGroupUser(taskgroup);
+              }}
+              styles={{ marginTop: "10px" }}
+            >
+              <EditIcon />
+            </IconButton>
           </Grid>
-        </div>
-      ),
-    );
+          {/* {this.props.rights.includes(RIGHT_taskgroup_DELETE) && !taskgroup.validityTo && ( */}
+          <Grid item>
+            <Tooltip title={formatMessage(this.props.intl, "admin.user", "deleteUser.tooltip")}>
+              <IconButton onClick={() => this.setState({ deleteUser: taskgroup })}>
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+          </Grid>
+        </Grid>
+      </div>
+    ));
     return formatters.filter(Boolean);
   };
 
@@ -206,9 +181,9 @@ class CenterLocationSearcher extends Component {
       fetchingCenters,
       CentersList,
     } = this.props;
-    console.log("centerpageinfo", centerGroupPageInfo);
-    let count =
-      !!centerGroupPageInfo && centerGroupPageInfo.totalCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    let count = !!centerGroupPageInfo && centerGroupPageInfo.totalCount;
+    // let count =
+    //   !!centerGroupPageInfo && centerGroupPageInfo.totalCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return (
       <>
         {this.state.deleteUser && (
@@ -219,7 +194,7 @@ class CenterLocationSearcher extends Component {
           />
         )}
         <Searcher
-          module="admin"
+          module="location"
           cacheFiltersKey={cacheFiltersKey}
           FilterPane={CenterLocationFilter}
           items={CentersList}
@@ -227,7 +202,7 @@ class CenterLocationSearcher extends Component {
           fetchingItems={fetchingCenters}
           fetchedItems={fetchedCenters}
           errorItems={errorCentersList}
-          tableTitle={formatMessageWithValues(intl, "admin", "taskGroup", { count })}
+          tableTitle={formatMessageWithValues(intl, "location", "Location.centerTitile", { count })}
           fetch={this.fetch}
           rowIdentifier={(r) => r.uuid}
           filtersToQueryParams={this.filtersToQueryParams}
@@ -235,7 +210,7 @@ class CenterLocationSearcher extends Component {
           headers={this.headers}
           // aligns={this.getAligns}
           itemFormatters={this.itemFormatters}
-          sorts={this.sorts}
+          // sorts={this.sorts}
           rowDisabled={(_, i) => i.validityTo || i.clientMutationId}
           rowLocked={(_, i) => i.clientMutationId}
           onDoubleClick={onDoubleClick}

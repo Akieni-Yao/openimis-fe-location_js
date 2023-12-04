@@ -36,13 +36,9 @@ const styles = (theme) => ({
     },
   }
 });
-
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@material-ui/core";
-
 import { FormattedMessage } from "@openimis/fe-core";
 
-// import { TaskGroupLabel } from "../pages/Utils/utils";
-// import { TaskGroupUserLabel } from "../pages/Utils/Labels";
 
 class DeleteCenterDailog extends Component {
   render() {
@@ -51,25 +47,25 @@ class DeleteCenterDailog extends Component {
       <Dialog open={!!task} onClose={onCancel}>
         <div style={{padding:"20px 40px"}}>
         <DialogTitle>
-          {check ? <FormattedMessage module="admin" id="deleteTaskGroupUser.mutationLabel" values={{ label: TaskGroupUserLabel(task?.user?.username) }} /> : <FormattedMessage module="admin" id="deleteTaskGroup.mutationLabel" values={{ label: 'new' }} />}
+          {check ? <FormattedMessage module="location" id="deleteTaskGroupUser.mutationLabel" values={{ label: CenterLabel(task?.user?.username) }} /> : <FormattedMessage module="location" id="deleteTaskGroup.mutationLabel"  />}
         </DialogTitle>
         <DialogContent>
           <DialogContentText className={classes.primaryHeading}>
             {check ? <FormattedMessage
-              module="admin"
+              module="location"
               id="deleteTaskUserDialog.message"
-              values={{ label: TaskGroupUserLabel(task?.user?.username) }}
+              values={{ label: task?.name }}
             /> : <FormattedMessage
-              module="admin"
+              module="location"
               id="deleteTaskDialog.message"
-              values={{ label: 'TaskGroupLabel(task)' }}
+              values={{ label:  task?.name  }}
               style={{fontWeight: 'bold'}}
             />}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={(e) => onConfirm(false)} className={classes.primaryButton}>
-            <FormattedMessage module="admin" id="task.deleteDialog" />
+            <FormattedMessage module="location" id="center.deleteButton" />
           </Button>
           <Button onClick={onCancel} className={classes.secondaryButton}>
             <FormattedMessage module="core" id="cancel" />

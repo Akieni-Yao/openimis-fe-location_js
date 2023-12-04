@@ -61,7 +61,7 @@ function reducer(
     fetchingCenters: false,
     fetchedCenters: false,
     CentersList: [],
-    centerPageInfo:null,
+    centerPageInfo: null,
     errorCentersList: null,
     fetchingCenterRes: false,
     fetchedCenterRes: false,
@@ -319,7 +319,7 @@ function reducer(
         fetchingCenters: false,
         fetchedCenters: true,
         CentersList: parseData(action.payload.data.station || action.payload.data.locationsStr),
-        centerPageInfo:action.payload.data.station,
+        centerPageInfo: pageInfo(action.payload.data.station),
         errorCentersList: formatGraphQLError(action.payload),
       };
     case "LOCATION_CENTERS_ERR":

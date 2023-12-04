@@ -165,8 +165,14 @@
   "location.HealthFacilityForm.fosaLevel.hôpitalGeneral": "Hôpital General",
   "location.HealthFacilityForm.fosaLevel.Autres": "Autres",
   "location.Location.center":"Center",
+  "location.Location.location":"Locations",
   "location.healthFacilityTooltip": "Create new Health",
   "location.deleteHealthFacility.tooltip":"Delete Health Facility",
   "location.task.title":"Update a center",
-  "location.task.newTitle":"Create a center"
+  "location.task.newTitle":"Create a center",
+  "location.Location.centerTitile":"{count} Centers Found",
+  "location.deleteTaskDialog.message": "Do you want to delete Center {label}?",
+  "location.deleteTaskGroup.mutationLabel": "Delete Center",
+  "location.center.deleteButton": "Delete",
+  "location.location.LocationPicker": "Location"
 }

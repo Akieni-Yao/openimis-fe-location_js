@@ -193,23 +193,25 @@ class CenterLocationFilter extends Component {
                 </Grid>
               }
             />
-            {/* <ControlledField
-                            module="product"
-                            id="region"
-                            field={
-                                <Grid item xs={3} className={classes.item}>
-                                    <PublishedComponent
-                                        label={(formatMessage(intl, "admin", "admin.center"))}
-                                        pubRef="location.RegionPicker"
-                                        value={filters.location?.value?.parent ?? filters.location?.value}
-                                        withNull={true}
-                                    // onChange={(value) =>
-                                    //     onChangeFilters([{ id: "location", value: value, filter: value ? `center: "${value.code}"` : null }])
-                                    // }
-                                    />
-                                </Grid>
-                            }
-                        /> */}
+            <ControlledField
+              module="product"
+              id="region"
+              field={
+                <Grid item xs={3} className={classes.item}>
+                  <PublishedComponent
+                    label={formatMessage(intl, "location", "location.LocationPicker")}
+                    pubRef="location.RegionPicker"
+                    value={filters.location?.value?.parent ?? filters.location?.value}
+                    withNull={true}
+                    onChange={(value) =>
+                      onChangeFilters([
+                        { id: "location", value: value, filter: value ? `location_Uuid: "${value.uuid}"` : null },
+                      ])
+                    }
+                  />
+                </Grid>
+              }
+            />
           </Grid>
         </Grid>
       </section>
