@@ -511,7 +511,14 @@ function formatCenterGQL(location) {
     ${!!location.id ? `stationId: ${decodeId(location.id)}` : ""}
   `;
 }
-
+// function updateformatCenterGQL(location) {
+//   console.log("location", location);
+//   return `
+//     ${!!location.location ? `locationId: "${decodeId(location.location.id)}"` : ""}
+//     ${!!location.name ? `name: "${location.name}"` : ""}
+//     ${!!location.id ? `stationId: ${decodeId(location.id)}` : ""}
+//   `;
+// }
 export function createCentre(mm, task) {
   let mutation = `mutation CreateStation {
     createStation(${formatCenterGQL(task)}) {

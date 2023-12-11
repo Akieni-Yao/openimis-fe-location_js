@@ -41,7 +41,7 @@ const CenterLocation = (props) => {
       }
     } else {
       const data = await dispatch(
-        updateCentre(modulesManager, task[0], formatMessageWithValues("admin.task.updateTask.mutationLabel")),
+        updateCentre(modulesManager, task, formatMessageWithValues("admin.task.updateTask.mutationLabel")),
       );
       if (data?.payload.data.updateStation.station) {
         setIsSucess(true);
@@ -77,7 +77,7 @@ const CenterLocation = (props) => {
         onClose={handleClose}
         message={sucessMessage}
         severity="success"
-        copyText={""}
+        // copyText={""}
         backgroundColor="#00913E"
       />
     </div>

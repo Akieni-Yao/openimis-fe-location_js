@@ -31,9 +31,10 @@ const CenterLocationMasterPanel = (props) => {
 
   useEffect(() => {
     if (edited) {
-      setFormdata(edited);
+      setFormdata(edited[0]);
     }
   }, [edited]);
+  // console.log("edited",edited);
   // const iuser = edited[0]?.tgUsersTaskGroup?.map((user) => {
   //   return user?.user;
   // });

@@ -194,7 +194,7 @@ class CenterLocationFilter extends Component {
               }
             />
             <ControlledField
-              module="product"
+              module="location"
               id="region"
               field={
                 <Grid item xs={3} className={classes.item}>
